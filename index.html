@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Year</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top, #252932 0%, #111318 45%, #0b0c0f 100%);
+    color: #f2f3f5;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+/* ---------- HOME ---------- */
+
+.home {
+    min-height: 100vh;
+    padding: 60px 30px;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 55px;
+}
+
+.title h1 {
+    font-size: 55px;
+    margin: 0;
+    letter-spacing: -3px;
+}
+
+.title p {
+    color: #9298a3;
+    margin-top: 12px;
+    font-size: 16px;
+}
+
+/* Floating months */
+
+.months {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+.month {
+    height: 170px;
+    padding: 25px;
+    border-radius: 25px;
+
+    background: linear-gradient(
+        145deg,
+        rgba(35,38,45,0.95),
+        rgba(22,24,29,0.95)
+    );
+
+    border: 1px solid #343840;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.35);
+
+    cursor: pointer;
+
+    transition:
+        transform 0.3s,
+        border 0.3s,
+        box-shadow 0.3s;
+
+    animation: floating 5s ease-in-out infinite;
+}
+
+.month:nth-child(2) { animation-delay: -1s; }
+.month:nth-child(3) { animation-delay: -2s; }
+.month:nth-child(4) { animation-delay: -3s; }
+.month:nth-child(5) { animation-delay: -4s; }
+.month:nth-child(6) { animation-delay: -2s; }
+
+.month:hover {
+    transform: translateY(-10px) scale(1.02);
+
+    border-color: #737b88;
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,0.55);
+}
+
+.month-number {
+    color: #737985;
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+
+.month h2 {
+    font-size: 27px;
+    margin-top: 45px;
+}
+
+.month-dot {
+    width: 7px;
+    height: 7px;
+    background: #aebccc;
+    border-radius: 50%;
+
+    position: absolute;
+    margin-top: -5px;
+}
+
+@keyframes floating {
+
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+/* ---------- CALENDAR ---------- */
+
+.calendar-page {
+    display: none;
+
+    min-height: 100vh;
+
+    padding:
+        40px
+        max(20px, 5vw);
+}
+
+.back {
+    background: #202329;
+    color: white;
+
+    border: 1px solid #3a3e47;
+
+    padding: 11px 17px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    margin-bottom: 25px;
+}
+
+.back:hover {
+    background: #292d34;
+}
+
+.calendar-title {
+    font-size: 45px;
+    margin-bottom: 35px;
+}
+
+.calendar {
+    max-width: 1100px;
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(7, 1fr);
+
+    gap: 9px;
+}
+
+.weekday {
+    color: #858b96;
+
+    font-size: 13px;
+
+    padding:
+        5px
+        8px;
+}
+
+.day {
+    min-height: 120px;
+
+    padding: 12px;
+
+    border-radius: 15px;
+
+    border: 1px solid #30343b;
+
+    background: #17191e;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.day:hover {
+    background: #22252b;
+
+    border-color: #606875;
+
+    transform: translateY(-3px);
+}
+
+.day-number {
+    font-weight: bold;
+}
+
+.note-preview {
+    color: #9ca3af;
+
+    font-size: 13px;
+
+    margin-top: 10px;
+
+    line-height: 1.4;
+}
+
+/* ---------- POPUP ---------- */
+
+.overlay {
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,0.72);
+
+    backdrop-filter: blur(6px);
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 10;
+}
+
+.popup {
+    width: 100%;
+
+    max-width: 550px;
+
+    background: #191b20;
+
+    border: 1px solid #3a3e47;
+
+    border-radius: 22px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 30px 90px rgba(0,0,0,0.7);
+}
+
+.popup h2 {
+    margin: 0 0 7px;
+}
+
+.popup p {
+    color: #8f96a1;
+
+    margin-top: 0;
+}
+
+textarea {
+    width: 100%;
+
+    min-height: 180px;
+
+    resize: vertical;
+
+    background: #0f1114;
+
+    color: white;
+
+    border: 1px solid #363a42;
+
+    border-radius: 14px;
+
+    padding: 15px;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+textarea:focus {
+    border-color: #788394;
+}
+
+.buttons {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 15px;
+}
+
+button {
+    font-family: inherit;
+}
+
+.cancel,
+.save {
+    padding: 11px 17px;
+
+    border-radius: 11px;
+
+    border: none;
+
+    cursor: pointer;
+}
+
+.cancel {
+    background: #292c32;
+
+    color: white;
+}
+
+.save {
+    background: #dce3eb;
+
+    color: #111318;
+
+    font-weight: bold;
+}
+
+/* ---------- MOBILE ---------- */
+
+@media(max-width: 800px) {
+
+    .months {
+        grid-template-columns:
+            repeat(3, 1fr);
+    }
+
+}
+
+@media(max-width: 600px) {
+
+    .home {
+        padding:
+            40px
+            15px;
+    }
+
+    .title h1 {
+        font-size: 42px;
+    }
+
+    .months {
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 14px;
+    }
+
+    .month {
+        height: 140px;
+
+        padding: 18px;
+    }
+
+    .month h2 {
+        font-size: 21px;
+
+        margin-top: 35px;
+    }
+
+    .calendar-page {
+        padding:
+            25px 10px;
+    }
+
+    .calendar-title {
+        font-size: 35px;
+    }
+
+    .calendar {
+        gap: 4px;
+    }
+
+    .day {
+        min-height: 85px;
+
+        padding: 7px;
+
+        border-radius: 9px;
+    }
+
+    .note-preview {
+        font-size: 10px;
+    }
+
+    .weekday {
+        font-size: 10px;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+
+<!-- ================= HOME ================= -->
+
+<div class="home" id="home">
+
+    <div class="title">
+
+        <h1>My Year</h1>
+
+        <p>
+            Twelve months. Every day. Your story.
+        </p>
+
+    </div>
+
+
+    <div class="months" id="months"></div>
+
+</div>
+
+
+
+<!-- ================= CALENDAR ================= -->
+
+<div class="calendar-page" id="calendarPage">
+
+    <button
+        class="back"
+        onclick="goHome()">
+
+        ← Back to months
+
+    </button>
+
+
+    <h1
+        class="calendar-title"
+        id="calendarTitle">
+
+    </h1>
+
+
+    <div
+        class="calendar"
+        id="calendar">
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= POPUP ================= -->
+
+<div
+    class="overlay"
+    id="overlay">
+
+    <div class="popup">
+
+        <h2 id="popupTitle"></h2>
+
+        <p>
+            Write something about this day.
+        </p>
+
+
+        <textarea
+            id="note"
+            placeholder="What happened today?">
+
+        </textarea>
+
+
+        <div class="buttons">
+
+            <button
+                class="cancel"
+                onclick="closePopup()">
+
+                Cancel
+
+            </button>
+
+
+            <button
+                class="save"
+                onclick="saveNote()">
+
+                Save
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* ================= DATA ================= */
+
+const months = [
+
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+
+];
+
+
+const monthContainer =
+    document.getElementById("months");
+
+
+const home =
+    document.getElementById("home");
+
+
+const calendarPage =
+    document.getElementById("calendarPage");
+
+
+const calendar =
+    document.getElementById("calendar");
+
+
+const calendarTitle =
+    document.getElementById("calendarTitle");
+
+
+const overlay =
+    document.getElementById("overlay");
+
+
+const popupTitle =
+    document.getElementById("popupTitle");
+
+
+const note =
+    document.getElementById("note");
+
+
+let selectedMonth = 0;
+
+let selectedDay = 1;
+
+
+
+/* ================= CREATE MONTHS ================= */
+
+months.forEach((month, index) => {
+
+    const card =
+        document.createElement("div");
+
+    card.className = "month";
+
+
+    card.innerHTML = `
+
+        <div class="month-number">
+            ${String(index + 1).padStart(2,"0")}
+        </div>
+
+        <h2>
+            ${month}
+        </h2>
+
+        <div class="month-dot"></div>
+
+    `;
+
+
+    card.onclick = () => {
+
+        openMonth(index);
+
+    };
+
+
+    monthContainer.appendChild(card);
+
+});
+
+
+
+/* ================= OPEN MONTH ================= */
+
+function openMonth(month) {
+
+    selectedMonth = month;
+
+
+    home.style.display = "none";
+
+    calendarPage.style.display = "block";
+
+
+    calendarTitle.textContent =
+        months[month];
+
+
+    createCalendar();
+
+}
+
+
+
+/* ================= CREATE CALENDAR ================= */
+
+function createCalendar() {
+
+    calendar.innerHTML = "";
+
+
+    const weekdays = [
+
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+
+    ];
+
+
+    weekdays.forEach(day => {
+
+        const heading =
+            document.createElement("div");
+
+        heading.className =
+            "weekday";
+
+        heading.textContent =
+            day;
+
+        calendar.appendChild(heading);
+
+    });
+
+
+    /*
+       2026 is used as the calendar year.
+       You can change this later.
+    */
+
+    const firstDay =
+        new Date(
+            2026,
+            selectedMonth,
+            1
+        ).getDay();
+
+
+    const numberOfDays =
+        new Date(
+            2026,
+            selectedMonth + 1,
+            0
+        ).getDate();
+
+
+
+    /* Empty spaces before day 1 */
+
+    for (
+        let i = 0;
+        i < firstDay;
+        i++
+    ) {
+
+        const empty =
+            document.createElement("div");
+
+        empty.className =
+            "day";
+
+        empty.style.visibility =
+            "hidden";
+
+        calendar.appendChild(empty);
+
+    }
+
+
+
+    /* Actual days */
+
+    for (
+        let day = 1;
+        day <= numberOfDays;
+        day++
+    ) {
+
+        const cell =
+            document.createElement("div");
+
+        cell.className =
+            "day";
+
+
+        const savedNote =
+            localStorage.getItem(
+                getKey(selectedMonth, day)
+            );
+
+
+        cell.innerHTML = `
+
+            <div class="day-number">
+                ${day}
+            </div>
+
+            ${
+                savedNote
+                ?
+                `<div class="note-preview">
+                    ${escapeHTML(savedNote)}
+                </div>`
+                :
+                ""
+            }
+
+        `;
+
+
+        cell.onclick = () => {
+
+            openPopup(day);
+
+        };
+
+
+        calendar.appendChild(cell);
+
+    }
+
+}
+
+
+
+/* ================= NOTES ================= */
+
+function getKey(month, day) {
+
+    return `my-year-${month}-${day}`;
+
+}
+
+
+
+function openPopup(day) {
+
+    selectedDay = day;
+
+
+    popupTitle.textContent =
+        `${months[selectedMonth]} ${day}`;
+
+
+    note.value =
+        localStorage.getItem(
+            getKey(selectedMonth, day)
+        ) || "";
+
+
+    overlay.style.display =
+        "flex";
+
+
+    note.focus();
+
+}
+
+
+
+function closePopup() {
+
+    overlay.style.display =
+        "none";
+
+}
+
+
+
+function saveNote() {
+
+    const text =
+        note.value.trim();
+
+
+    if (text.length > 0) {
+
+        localStorage.setItem(
+            getKey(
+                selectedMonth,
+                selectedDay
+            ),
+            text
+        );
+
+    }
+
+    else {
+
+        localStorage.removeItem(
+            getKey(
+                selectedMonth,
+                selectedDay
+            )
+        );
+
+    }
+
+
+    closePopup();
+
+
+    createCalendar();
+
+}
+
+
+
+/* ================= HOME ================= */
+
+function goHome() {
+
+    calendarPage.style.display =
+        "none";
+
+    home.style.display =
+        "block";
+
+}
+
+
+
+/* ================= SECURITY ================= */
+
+function escapeHTML(text) {
+
+    return text.replace(
+        /[&<>"']/g,
+
+        function(character) {
+
+            return {
+
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#039;"
+
+            }[character];
+
+        }
+
+    );
+
+}
+
+
+
+/* Close popup by clicking outside */
+
+overlay.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target === overlay
+        ) {
+
+            closePopup();
+
+        }
+
+    }
+);
+
+
+/* Escape key */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            closePopup();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
