@@ -3,933 +3,679 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>My Year</title>
+<title>For You ❤️</title>
 
 <style>
 * {
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
-    min-height: 100vh;
-    background:
-        radial-gradient(circle at top, #252932 0%, #111318 45%, #0b0c0f 100%);
-    color: #f2f3f5;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Georgia, "Times New Roman", serif;
+    background: #fff5f8;
+    color: #4a2632;
     overflow-x: hidden;
-}
-
-/* ---------- HOME ---------- */
-
-.home {
-    min-height: 100vh;
-    padding: 60px 30px;
-}
-
-.title {
-    text-align: center;
-    margin-bottom: 55px;
-}
-
-.title h1 {
-    font-size: 55px;
-    margin: 0;
-    letter-spacing: -3px;
-}
-
-.title p {
-    color: #9298a3;
-    margin-top: 12px;
-    font-size: 16px;
-}
-
-/* Floating months */
-
-.months {
-    max-width: 1100px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 25px;
-}
-
-.month {
-    height: 170px;
-    padding: 25px;
-    border-radius: 25px;
-
-    background: linear-gradient(
-        145deg,
-        rgba(35,38,45,0.95),
-        rgba(22,24,29,0.95)
-    );
-
-    border: 1px solid #343840;
-
-    box-shadow:
-        0 15px 40px rgba(0,0,0,0.35);
-
-    cursor: pointer;
-
-    transition:
-        transform 0.3s,
-        border 0.3s,
-        box-shadow 0.3s;
-
-    animation: floating 5s ease-in-out infinite;
-}
-
-.month:nth-child(2) { animation-delay: -1s; }
-.month:nth-child(3) { animation-delay: -2s; }
-.month:nth-child(4) { animation-delay: -3s; }
-.month:nth-child(5) { animation-delay: -4s; }
-.month:nth-child(6) { animation-delay: -2s; }
-
-.month:hover {
-    transform: translateY(-10px) scale(1.02);
-
-    border-color: #737b88;
-
-    box-shadow:
-        0 25px 60px rgba(0,0,0,0.55);
-}
-
-.month-number {
-    color: #737985;
-    font-size: 13px;
-    letter-spacing: 2px;
-}
-
-.month h2 {
-    font-size: 27px;
-    margin-top: 45px;
-}
-
-.month-dot {
-    width: 7px;
-    height: 7px;
-    background: #aebccc;
-    border-radius: 50%;
-
-    position: absolute;
-    margin-top: -5px;
-}
-
-@keyframes floating {
-
-    0%,100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-6px);
-    }
-}
-
-/* ---------- CALENDAR ---------- */
-
-.calendar-page {
-    display: none;
-
-    min-height: 100vh;
-
-    padding:
-        40px
-        max(20px, 5vw);
-}
-
-.back {
-    background: #202329;
-    color: white;
-
-    border: 1px solid #3a3e47;
-
-    padding: 11px 17px;
-
-    border-radius: 12px;
-
-    cursor: pointer;
-
-    margin-bottom: 25px;
-}
-
-.back:hover {
-    background: #292d34;
-}
-
-.calendar-title {
-    font-size: 45px;
-    margin-bottom: 35px;
-}
-
-.calendar {
-    max-width: 1100px;
-    margin: auto;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(7, 1fr);
-
-    gap: 9px;
-}
-
-.weekday {
-    color: #858b96;
-
-    font-size: 13px;
-
-    padding:
-        5px
-        8px;
-}
-
-.day {
-    min-height: 120px;
-
-    padding: 12px;
-
-    border-radius: 15px;
-
-    border: 1px solid #30343b;
-
-    background: #17191e;
-
-    cursor: pointer;
-
-    transition: 0.2s;
-}
-
-.day:hover {
-    background: #22252b;
-
-    border-color: #606875;
-
-    transform: translateY(-3px);
-}
-
-.day-number {
-    font-weight: bold;
-}
-
-.note-preview {
-    color: #9ca3af;
-
-    font-size: 13px;
-
-    margin-top: 10px;
-
-    line-height: 1.4;
-}
-
-/* ---------- POPUP ---------- */
-
-.overlay {
-    display: none;
-
-    position: fixed;
-
-    inset: 0;
-
-    background: rgba(0,0,0,0.72);
-
-    backdrop-filter: blur(6px);
-
-    align-items: center;
-
-    justify-content: center;
-
-    padding: 20px;
-
-    z-index: 10;
-}
-
-.popup {
-    width: 100%;
-
-    max-width: 550px;
-
-    background: #191b20;
-
-    border: 1px solid #3a3e47;
-
-    border-radius: 22px;
-
-    padding: 25px;
-
-    box-shadow:
-        0 30px 90px rgba(0,0,0,0.7);
-}
-
-.popup h2 {
-    margin: 0 0 7px;
-}
-
-.popup p {
-    color: #8f96a1;
-
-    margin-top: 0;
-}
-
-textarea {
-    width: 100%;
-
-    min-height: 180px;
-
-    resize: vertical;
-
-    background: #0f1114;
-
-    color: white;
-
-    border: 1px solid #363a42;
-
-    border-radius: 14px;
-
-    padding: 15px;
-
-    font-size: 15px;
-
-    outline: none;
-}
-
-textarea:focus {
-    border-color: #788394;
-}
-
-.buttons {
-    display: flex;
-
-    justify-content: flex-end;
-
-    gap: 10px;
-
-    margin-top: 15px;
 }
 
 button {
     font-family: inherit;
 }
 
-.cancel,
-.save {
-    padding: 11px 17px;
+.opening {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px;
+    background: linear-gradient(135deg, #fff0f5, #ffe0eb);
+    position: relative;
+    overflow: hidden;
+}
 
-    border-radius: 11px;
+.opening-content {
+    position: relative;
+    z-index: 2;
+    max-width: 650px;
+}
 
+.small-title {
+    font-size: 18px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+.opening h1 {
+    font-size: clamp(45px, 9vw, 85px);
+    margin: 15px 0;
+    color: #b52d58;
+}
+
+.opening p {
+    font-size: 20px;
+    line-height: 1.6;
+}
+
+.open-button {
+    margin-top: 25px;
+    padding: 16px 32px;
     border: none;
+    border-radius: 50px;
+    background: #b52d58;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(181,45,88,0.25);
+    transition: transform 0.2s;
+}
 
+.open-button:hover {
+    transform: scale(1.05);
+}
+
+#website {
+    display: none;
+}
+
+section {
+    padding: 80px 20px;
+    max-width: 950px;
+    margin: auto;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 42px;
+    color: #b52d58;
+    margin-bottom: 15px;
+}
+
+.section-subtitle {
+    text-align: center;
+    font-size: 18px;
+    opacity: 0.75;
+    margin-bottom: 45px;
+}
+
+.hero {
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 50px 20px;
+    position: relative;
+}
+
+.hero h1 {
+    font-size: clamp(45px, 8vw, 80px);
+    margin: 0;
+    color: #b52d58;
+}
+
+.hero p {
+    font-size: 21px;
+    line-height: 1.7;
+    max-width: 650px;
+    margin: 25px auto;
+}
+
+.date {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 30px;
+    background: #ffe0eb;
+    color: #9e234b;
+}
+
+.letter {
+    background: white;
+    border-radius: 25px;
+    padding: 35px;
+    box-shadow: 0 10px 35px rgba(120,40,70,0.08);
+    font-size: 19px;
+    line-height: 1.9;
+}
+
+.memories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.memory {
+    min-height: 220px;
+    background: white;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 25px;
+    box-shadow: 0 8px 25px rgba(120,40,70,0.08);
+}
+
+.memory span {
+    font-size: 45px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.timeline {
+    position: relative;
+    max-width: 700px;
+    margin: auto;
+}
+
+.timeline-item {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    margin: 20px 0;
+    box-shadow: 0 8px 25px rgba(120,40,70,0.08);
+}
+
+.timeline-item h3 {
+    margin-top: 0;
+    color: #b52d58;
+}
+
+.final {
+    text-align: center;
+    padding-bottom: 120px;
+}
+
+.final h2 {
+    font-size: clamp(40px, 7vw, 70px);
+    color: #b52d58;
+}
+
+.heart {
+    position: fixed;
+    z-index: 20;
+    border: none;
+    background: transparent;
+    font-size: 28px;
+    cursor: pointer;
+    animation: floatHeart linear forwards;
+    padding: 12px;
+    min-width: 50px;
+    min-height: 50px;
+}
+
+@keyframes floatHeart {
+    from {
+        transform: translateY(110vh) rotate(0deg);
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(-15vh) rotate(25deg);
+        opacity: 0;
+    }
+}
+
+.message-box {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    width: min(90%, 430px);
+    background: white;
+    border-radius: 25px;
+    padding: 35px;
+    text-align: center;
+    box-shadow: 0 20px 70px rgba(70,20,40,0.25);
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.25s ease;
+}
+
+.message-box.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
+}
+
+.message-box .big-heart {
+    font-size: 55px;
+}
+
+.message-box h2 {
+    color: #b52d58;
+}
+
+.close-message {
+    border: none;
+    border-radius: 30px;
+    padding: 12px 25px;
+    background: #b52d58;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(50,10,25,0.25);
+    z-index: 90;
+    display: none;
+}
+
+.overlay.show {
+    display: block;
+}
+
+.music-button {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 50;
+    width: 55px;
+    height: 55px;
+    border: none;
+    border-radius: 50%;
+    background: #b52d58;
+    color: white;
+    font-size: 23px;
     cursor: pointer;
 }
 
-.cancel {
-    background: #292c32;
-
-    color: white;
+footer {
+    text-align: center;
+    padding: 30px;
+    opacity: 0.65;
 }
 
-.save {
-    background: #dce3eb;
+@media (max-width: 600px) {
+    section {
+        padding: 60px 16px;
+    }
 
-    color: #111318;
+    .letter {
+        padding: 25px;
+        font-size: 17px;
+    }
 
-    font-weight: bold;
+    .section-title {
+        font-size: 34px;
+    }
+
+    .heart {
+        font-size: 25px;
+    }
 }
 
-/* ---------- MOBILE ---------- */
-
-@media(max-width: 800px) {
-
-    .months {
-        grid-template-columns:
-            repeat(3, 1fr);
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
     }
 
-}
-
-@media(max-width: 600px) {
-
-    .home {
-        padding:
-            40px
-            15px;
-    }
-
-    .title h1 {
-        font-size: 42px;
-    }
-
-    .months {
-        grid-template-columns:
-            repeat(2, 1fr);
-
-        gap: 14px;
-    }
-
-    .month {
-        height: 140px;
-
-        padding: 18px;
-    }
-
-    .month h2 {
-        font-size: 21px;
-
-        margin-top: 35px;
-    }
-
-    .calendar-page {
-        padding:
-            25px 10px;
-    }
-
-    .calendar-title {
-        font-size: 35px;
-    }
-
-    .calendar {
-        gap: 4px;
-    }
-
-    .day {
-        min-height: 85px;
-
-        padding: 7px;
-
-        border-radius: 9px;
-    }
-
-    .note-preview {
-        font-size: 10px;
-    }
-
-    .weekday {
-        font-size: 10px;
+    .heart {
+        animation: none;
+        display: none;
     }
 }
 </style>
 </head>
 
-
 <body>
 
+<!-- OPENING -->
+<div class="opening" id="opening">
+    <div class="opening-content">
+        <div class="small-title">A little something for you</div>
 
-<!-- ================= HOME ================= -->
-
-<div class="home" id="home">
-
-    <div class="title">
-
-        <h1>My Year</h1>
+        <h1>For You ❤️</h1>
 
         <p>
-            Twelve months. Every day. Your story.
+            I made this little corner of the internet
+            just for you.
         </p>
 
+        <button class="open-button" id="openButton">
+            Open ❤️
+        </button>
     </div>
-
-
-    <div class="months" id="months"></div>
-
 </div>
 
+<!-- MAIN WEBSITE -->
+<div id="website">
 
+    <div class="hero">
+        <div>
+            <div class="date">Our special day ❤️</div>
 
-<!-- ================= CALENDAR ================= -->
+            <h1>For Someone Special</h1>
 
-<div class="calendar-page" id="calendarPage">
+            <p>
+                There are probably a million things I could say,
+                but I wanted to put at least some of them here.
+            </p>
 
-    <button
-        class="back"
-        onclick="goHome()">
-
-        ← Back to months
-
-    </button>
-
-
-    <h1
-        class="calendar-title"
-        id="calendarTitle">
-
-    </h1>
-
-
-    <div
-        class="calendar"
-        id="calendar">
-
+            <p>Scroll down... there are little surprises waiting. 💗</p>
+        </div>
     </div>
 
-</div>
+    <!-- LETTER -->
+    <section>
+        <h2 class="section-title">A Letter For You 💌</h2>
 
-
-
-<!-- ================= POPUP ================= -->
-
-<div
-    class="overlay"
-    id="overlay">
-
-    <div class="popup">
-
-        <h2 id="popupTitle"></h2>
-
-        <p>
-            Write something about this day.
+        <p class="section-subtitle">
+            Something I wanted you to know.
         </p>
 
+        <div class="letter">
+            <p>Dear you,</p>
 
-        <textarea
-            id="note"
-            placeholder="What happened today?">
+            <p>
+                I don't even know where to start, because there are
+                so many things I could say.
+            </p>
 
-        </textarea>
+            <p>
+                You make my days better in ways you probably don't
+                even realise. The little conversations, the laughs,
+                the memories, and even the random moments mean more
+                to me than you might think.
+            </p>
 
+            <p>
+                I made this website because I wanted to create
+                something that was actually ours — something you
+                could come back to whenever you wanted.
+            </p>
 
-        <div class="buttons">
+            <p>
+                Thank you for being you. ❤️
+            </p>
 
-            <button
-                class="cancel"
-                onclick="closePopup()">
+            <p>
+                — From me
+            </p>
+        </div>
+    </section>
 
-                Cancel
+    <!-- MEMORIES -->
+    <section>
+        <h2 class="section-title">Our Memories 📸</h2>
 
-            </button>
+        <p class="section-subtitle">
+            These can become your actual photos later.
+        </p>
 
+        <div class="memories">
 
-            <button
-                class="save"
-                onclick="saveNote()">
+            <div class="memory">
+                <div>
+                    <span>📸</span>
+                    <strong>Our first memory</strong>
+                    <p>Add a photo and story here.</p>
+                </div>
+            </div>
 
-                Save
+            <div class="memory">
+                <div>
+                    <span>💗</span>
+                    <strong>A favourite moment</strong>
+                    <p>Add another special memory.</p>
+                </div>
+            </div>
 
-            </button>
+            <div class="memory">
+                <div>
+                    <span>🌸</span>
+                    <strong>A random moment</strong>
+                    <p>The moments you don't expect can become your favourites.</p>
+                </div>
+            </div>
+
+            <div class="memory">
+                <div>
+                    <span>❤️</span>
+                    <strong>One I'll never forget</strong>
+                    <p>Add your own story here.</p>
+                </div>
+            </div>
 
         </div>
+    </section>
 
-    </div>
+    <!-- TIMELINE -->
+    <section>
+        <h2 class="section-title">Our Story 🗓️</h2>
+
+        <p class="section-subtitle">
+            A little timeline of the moments that matter.
+        </p>
+
+        <div class="timeline">
+
+            <div class="timeline-item">
+                <h3>The beginning</h3>
+                <p>Write about when everything started.</p>
+            </div>
+
+            <div class="timeline-item">
+                <h3>Our first memory</h3>
+                <p>Write about one of your earliest memories together.</p>
+            </div>
+
+            <div class="timeline-item">
+                <h3>A favourite day</h3>
+                <p>Write about a day you wish you could relive.</p>
+            </div>
+
+            <div class="timeline-item">
+                <h3>Today ❤️</h3>
+                <p>And somehow, we're here.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FINAL -->
+    <section class="final">
+
+        <h2>And there's more... ❤️</h2>
+
+        <p>
+            Keep tapping the hearts floating around the page.
+        </p>
+
+        <p>
+            Some of them have something to say.
+        </p>
+
+        <br>
+
+        <h2>Happy Anniversary ❤️</h2>
+
+        <p>
+            Here's to all the memories we've made,
+            and all the ones still waiting for us.
+        </p>
+
+    </section>
+
+    <footer>
+        Made with ❤️
+    </footer>
 
 </div>
 
+<!-- MESSAGE POPUP -->
+<div class="overlay" id="overlay"></div>
 
+<div class="message-box" id="messageBox">
+    <div class="big-heart">❤️</div>
+
+    <h2 id="messageTitle">A little message</h2>
+
+    <p id="messageText">
+        I love you.
+    </p>
+
+    <button class="close-message" id="closeMessage">
+        Close ❤️
+    </button>
+</div>
+
+<!-- MUSIC BUTTON -->
+<button class="music-button" id="musicButton" aria-label="Music">
+    🎵
+</button>
 
 <script>
 
-/* ================= DATA ================= */
+const opening = document.getElementById("opening");
+const website = document.getElementById("website");
+const openButton = document.getElementById("openButton");
 
-const months = [
+const messageBox = document.getElementById("messageBox");
+const overlay = document.getElementById("overlay");
+const messageText = document.getElementById("messageText");
+const messageTitle = document.getElementById("messageTitle");
+const closeMessage = document.getElementById("closeMessage");
 
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-
+const messages = [
+    "I love you ❤️",
+    "You make me smile more than you realise.",
+    "You mean so much to me. 💗",
+    "I'm really lucky to have you.",
+    "You make ordinary days feel special.",
+    "You're one of my favourite people in the world.",
+    "I hope you know how special you are.",
+    "I'd choose you again. ❤️",
+    "You have no idea how much you mean to me.",
+    "Thank you for being you. 🫶",
+    "This little heart belongs to you.",
+    "Here's a reminder that you're loved. 💕"
 ];
 
+let messageIndex = 0;
 
-const monthContainer =
-    document.getElementById("months");
+openButton.addEventListener("click", () => {
 
+    opening.style.display = "none";
+    website.style.display = "block";
 
-const home =
-    document.getElementById("home");
+    window.scrollTo({
+        top: 0,
+        behavior: "instant"
+    });
 
-
-const calendarPage =
-    document.getElementById("calendarPage");
-
-
-const calendar =
-    document.getElementById("calendar");
-
-
-const calendarTitle =
-    document.getElementById("calendarTitle");
-
-
-const overlay =
-    document.getElementById("overlay");
-
-
-const popupTitle =
-    document.getElementById("popupTitle");
-
-
-const note =
-    document.getElementById("note");
-
-
-let selectedMonth = 0;
-
-let selectedDay = 1;
-
-
-
-/* ================= CREATE MONTHS ================= */
-
-months.forEach((month, index) => {
-
-    const card =
-        document.createElement("div");
-
-    card.className = "month";
-
-
-    card.innerHTML = `
-
-        <div class="month-number">
-            ${String(index + 1).padStart(2,"0")}
-        </div>
-
-        <h2>
-            ${month}
-        </h2>
-
-        <div class="month-dot"></div>
-
-    `;
-
-
-    card.onclick = () => {
-
-        openMonth(index);
-
-    };
-
-
-    monthContainer.appendChild(card);
-
+    startHearts();
 });
 
+function showMessage() {
 
+    messageText.textContent = messages[messageIndex];
 
-/* ================= OPEN MONTH ================= */
+    messageTitle.textContent = "A little message for you";
 
-function openMonth(month) {
+    messageIndex++;
 
-    selectedMonth = month;
+    if (messageIndex >= messages.length) {
+        messageIndex = 0;
+    }
 
-
-    home.style.display = "none";
-
-    calendarPage.style.display = "block";
-
-
-    calendarTitle.textContent =
-        months[month];
-
-
-    createCalendar();
-
+    messageBox.classList.add("show");
+    overlay.classList.add("show");
 }
 
+function closePopup() {
+    messageBox.classList.remove("show");
+    overlay.classList.remove("show");
+}
 
+closeMessage.addEventListener("click", closePopup);
+overlay.addEventListener("click", closePopup);
 
-/* ================= CREATE CALENDAR ================= */
+function createHeart() {
 
-function createCalendar() {
+    if (website.style.display === "none") {
+        return;
+    }
 
-    calendar.innerHTML = "";
+    const heart = document.createElement("button");
 
+    heart.className = "heart";
 
-    const weekdays = [
+    const heartTypes = ["❤️", "💗", "💕", "💖", "💓", "💘"];
 
-        "Sun",
-        "Mon",
-        "Tue",
-        "Wed",
-        "Thu",
-        "Fri",
-        "Sat"
+    heart.textContent =
+        heartTypes[Math.floor(Math.random() * heartTypes.length)];
 
-    ];
+    heart.style.left = Math.random() * 92 + "vw";
 
+    const duration = 7 + Math.random() * 6;
 
-    weekdays.forEach(day => {
+    heart.style.animationDuration = duration + "s";
 
-        const heading =
-            document.createElement("div");
+    heart.addEventListener("click", () => {
 
-        heading.className =
-            "weekday";
+        showMessage();
 
-        heading.textContent =
-            day;
-
-        calendar.appendChild(heading);
+        heart.remove();
 
     });
 
+    document.body.appendChild(heart);
 
-    /*
-       2026 is used as the calendar year.
-       You can change this later.
-    */
+    setTimeout(() => {
 
-    const firstDay =
-        new Date(
-            2026,
-            selectedMonth,
-            1
-        ).getDay();
-
-
-    const numberOfDays =
-        new Date(
-            2026,
-            selectedMonth + 1,
-            0
-        ).getDate();
-
-
-
-    /* Empty spaces before day 1 */
-
-    for (
-        let i = 0;
-        i < firstDay;
-        i++
-    ) {
-
-        const empty =
-            document.createElement("div");
-
-        empty.className =
-            "day";
-
-        empty.style.visibility =
-            "hidden";
-
-        calendar.appendChild(empty);
-
-    }
-
-
-
-    /* Actual days */
-
-    for (
-        let day = 1;
-        day <= numberOfDays;
-        day++
-    ) {
-
-        const cell =
-            document.createElement("div");
-
-        cell.className =
-            "day";
-
-
-        const savedNote =
-            localStorage.getItem(
-                getKey(selectedMonth, day)
-            );
-
-
-        cell.innerHTML = `
-
-            <div class="day-number">
-                ${day}
-            </div>
-
-            ${
-                savedNote
-                ?
-                `<div class="note-preview">
-                    ${escapeHTML(savedNote)}
-                </div>`
-                :
-                ""
-            }
-
-        `;
-
-
-        cell.onclick = () => {
-
-            openPopup(day);
-
-        };
-
-
-        calendar.appendChild(cell);
-
-    }
-
-}
-
-
-
-/* ================= NOTES ================= */
-
-function getKey(month, day) {
-
-    return `my-year-${month}-${day}`;
-
-}
-
-
-
-function openPopup(day) {
-
-    selectedDay = day;
-
-
-    popupTitle.textContent =
-        `${months[selectedMonth]} ${day}`;
-
-
-    note.value =
-        localStorage.getItem(
-            getKey(selectedMonth, day)
-        ) || "";
-
-
-    overlay.style.display =
-        "flex";
-
-
-    note.focus();
-
-}
-
-
-
-function closePopup() {
-
-    overlay.style.display =
-        "none";
-
-}
-
-
-
-function saveNote() {
-
-    const text =
-        note.value.trim();
-
-
-    if (text.length > 0) {
-
-        localStorage.setItem(
-            getKey(
-                selectedMonth,
-                selectedDay
-            ),
-            text
-        );
-
-    }
-
-    else {
-
-        localStorage.removeItem(
-            getKey(
-                selectedMonth,
-                selectedDay
-            )
-        );
-
-    }
-
-
-    closePopup();
-
-
-    createCalendar();
-
-}
-
-
-
-/* ================= HOME ================= */
-
-function goHome() {
-
-    calendarPage.style.display =
-        "none";
-
-    home.style.display =
-        "block";
-
-}
-
-
-
-/* ================= SECURITY ================= */
-
-function escapeHTML(text) {
-
-    return text.replace(
-        /[&<>"']/g,
-
-        function(character) {
-
-            return {
-
-                "&": "&amp;",
-                "<": "&lt;",
-                ">": "&gt;",
-                '"': "&quot;",
-                "'": "&#039;"
-
-            }[character];
-
+        if (heart.parentNode) {
+            heart.remove();
         }
 
-    );
-
+    }, duration * 1000);
 }
 
+function startHearts() {
 
+    for (let i = 0; i < 6; i++) {
 
-/* Close popup by clicking outside */
-
-overlay.addEventListener(
-    "click",
-    function(event) {
-
-        if (
-            event.target === overlay
-        ) {
-
-            closePopup();
-
-        }
+        setTimeout(() => {
+            createHeart();
+        }, i * 500);
 
     }
-);
 
+    setInterval(() => {
+        createHeart();
+    }, 1400);
+}
 
-/* Escape key */
+/* MUSIC BUTTON
+   We will add your actual song later.
+*/
 
-document.addEventListener(
-    "keydown",
-    function(event) {
+const musicButton = document.getElementById("musicButton");
 
-        if (
-            event.key === "Escape"
-        ) {
+musicButton.addEventListener("click", () => {
 
-            closePopup();
+    messageTitle.textContent = "Music 🎵";
 
-        }
+    messageText.textContent =
+        "We'll add your special song here next.";
 
-    }
-);
+    messageBox.classList.add("show");
+    overlay.classList.add("show");
+
+});
 
 </script>
 
