@@ -328,6 +328,148 @@ footer {
         display: none;
     }
 }
+/* ===== MEMORY CALENDAR ===== */
+
+.calendar-section {
+    max-width: 1000px;
+    margin: auto;
+    padding: 80px 20px;
+}
+
+.calendar-wrapper {
+    background-image:
+        linear-gradient(rgba(255,245,248,0.88), rgba(255,245,248,0.88)),
+        url("calendar-background.jpg");
+    background-size: cover;
+    background-position: center;
+    border-radius: 30px;
+    padding: 30px;
+    box-shadow: 0 10px 35px rgba(120,40,70,0.12);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.calendar-header h3 {
+    color: #b52d58;
+    font-size: 28px;
+    margin: 0;
+}
+
+.calendar-nav {
+    border: none;
+    background: #b52d58;
+    color: white;
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.weekdays,
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.weekdays div {
+    text-align: center;
+    font-weight: bold;
+    color: #9e234b;
+    padding: 8px 0;
+}
+
+.calendar-day {
+    min-height: 70px;
+    border: none;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.85);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 16px;
+    color: #4a2632;
+    transition: 0.2s;
+}
+
+.calendar-day:hover {
+    transform: scale(1.04);
+    background: #ffe0eb;
+}
+
+.calendar-day.empty {
+    background: transparent;
+    cursor: default;
+}
+
+.calendar-day.special {
+    background: #ffd1df;
+    color: #b52d58;
+    font-weight: bold;
+}
+
+.calendar-day .heart-mark {
+    display: block;
+    font-size: 16px;
+    margin-top: 4px;
+}
+
+.calendar-popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(40,10,25,0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 20px;
+}
+
+.calendar-popup.show {
+    display: flex;
+}
+
+.calendar-card {
+    width: min(90%, 550px);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: white;
+    border-radius: 28px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 20px 70px rgba(50,10,25,0.3);
+}
+
+.calendar-card img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 20px;
+    margin: 15px 0;
+}
+
+.calendar-card h2 {
+    color: #b52d58;
+}
+
+.calendar-card p {
+    line-height: 1.7;
+}
+
+.calendar-close {
+    border: none;
+    background: #b52d58;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 16px;
+}
 </style>
 </head>
 
@@ -371,6 +513,43 @@ footer {
 
     <!-- LETTER -->
     <section>
+    <section class="calendar-section">
+    <h2 class="section-title">Our Calendar 📅</h2>
+    <p class="section-subtitle">
+        Every date holds a memory. ❤️
+    </p>
+
+    <div class="calendar-wrapper">
+        <div class="calendar-header">
+            <button class="calendar-nav" id="previousMonth">‹</button>
+            <h3 id="calendarMonth">March 2026</h3>
+            <button class="calendar-nav" id="nextMonth">›</button>
+        </div>
+
+        <div class="weekdays">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid"></div>
+    </div>
+</section>
+
+<div class="calendar-popup" id="calendarPopup">
+    <div class="calendar-card">
+        <h2 id="memoryTitle">A special day ❤️</h2>
+        <img id="memoryImage" src="" alt="Memory">
+        <p id="memoryText"></p>
+        <button class="calendar-close" id="calendarClose">
+            Close ❤️
+        </button>
+    </div>
+</div> 
         <h2 class="section-title">A Letter For You 💌</h2>
 
         <p class="section-subtitle">
@@ -676,7 +855,117 @@ musicButton.addEventListener("click", () => {
     overlay.classList.add("show");
 
 });
+const calendarGrid = document.getElementById("calendarGrid");
+const calendarMonth = document.getElementById("calendarMonth");
+const previousMonth = document.getElementById("previousMonth");
+const nextMonth = document.getElementById("nextMonth");
+const calendarPopup = document.getElementById("calendarPopup");
+const calendarClose = document.getElementById("calendarClose");
+const memoryTitle = document.getElementById("memoryTitle");
+const memoryImage = document.getElementById("memoryImage");
+const memoryText = document.getElementById("memoryText");
 
+let calendarDate = new Date(2026, 2, 1);
+
+const memories = {
+    "2026-03-05": {
+        title: "The Beginning ❤️",
+        text: "The day your story began.",
+        image: ""
+    },
+    "2026-04-10": {
+        title: "A Special Day 💗",
+        text: "Write your memory for this day here.",
+        image: ""
+    },
+    "2026-05-21": {
+        title: "Another Memory 🌸",
+        text: "Write your memory for this day here.",
+        image: ""
+    }
+};
+
+function drawCalendar() {
+    calendarGrid.innerHTML = "";
+
+    const year = calendarDate.getFullYear();
+    const month = calendarDate.getMonth();
+
+    calendarMonth.textContent = calendarDate.toLocaleString(
+        "en-NZ",
+        { month: "long", year: "numeric" }
+    );
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    for (let i = 0; i < firstDay; i++) {
+        const emptyDay = document.createElement("div");
+        emptyDay.className = "calendar-day empty";
+        calendarGrid.appendChild(emptyDay);
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+        const button = document.createElement("button");
+        button.className = "calendar-day";
+        button.textContent = day;
+
+        const monthNumber = String(month + 1).padStart(2, "0");
+        const dayNumber = String(day).padStart(2, "0");
+        const dateKey = `${year}-${monthNumber}-${dayNumber}`;
+
+        if (memories[dateKey]) {
+            button.classList.add("special");
+            button.textContent = `${day} ❤️`;
+        }
+
+        button.addEventListener("click", () => {
+            const memory = memories[dateKey];
+
+            memoryTitle.textContent = memory
+                ? memory.title
+                : `📅 ${day} ${calendarDate.toLocaleString("en-NZ", { month: "long" })} ${year}`;
+
+            memoryText.textContent = memory
+                ? memory.text
+                : "No memory added for this date yet. ❤️";
+
+            if (memory && memory.image) {
+                memoryImage.src = memory.image;
+                memoryImage.style.display = "block";
+            } else {
+                memoryImage.removeAttribute("src");
+                memoryImage.style.display = "none";
+            }
+
+            calendarPopup.classList.add("show");
+        });
+
+        calendarGrid.appendChild(button);
+    }
+}
+
+previousMonth.addEventListener("click", () => {
+    calendarDate.setMonth(calendarDate.getMonth() - 1);
+    drawCalendar();
+});
+
+nextMonth.addEventListener("click", () => {
+    calendarDate.setMonth(calendarDate.getMonth() + 1);
+    drawCalendar();
+});
+
+calendarClose.addEventListener("click", () => {
+    calendarPopup.classList.remove("show");
+});
+
+calendarPopup.addEventListener("click", (event) => {
+    if (event.target === calendarPopup) {
+        calendarPopup.classList.remove("show");
+    }
+});
+
+drawCalendar();
 </script>
 
 </body>
